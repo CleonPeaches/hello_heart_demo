@@ -1,0 +1,57 @@
+version: '3.9'
+
+services:
+  jupyter:
+    image: jupyter/pyspark-notebook
+    ports:
+      - "8888:8888"
+      - "4040:4040"
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+      - JUPYTER_TOKEN=
+      - JUPYTER_PASSWORD=
+      - SPARK_OPTS="--driver-java-options=-Xms1024M --driver-java-options=-Xmx4096M --driver-java-options=-Dlog4j.logLevel=info"
+      - PYSPARK_PYTHON=/opt/conda/bin/python
+      - PYSPARK_DRIVER_PYTHON=/opt/conda/bin/python
+    volumes:
+      - ./notebooks:/home/jovyan/work
+      - ./requirements.txt:/home/jovyan/requirements.txt
+      - jupyter-data:/home/jovyan/.local
+    restart: unless-stopped
+    user: root
+    container_name: jupyter-pyspark
+    working_dir: /home/jovyan/work
+    depends_on:
+      - localstack
+    command: >
+      bash -c "pip install -r /home/jovyan/requirements.txt &&
+              python -m ipykernel install --user &&
+              fix-permissions /home/jovyan/.local &&
+              start-notebook.sh --NotebookApp.token='' --NotebookApp.password=''"
+    networks:
+      - default
+
+  localstack:
+    image: localstack/localstack
+    ports:
+      - "4566:4566"
+      - "4572:4572"
+    environment:
+      - SERVICES=s3
+      - AWS_DEFAULT_REGION=us-east-1
+      - EDGE_PORT=4566
+      - DATA_DIR=/var/lib/localstack
+    volumes:
+      - localstack-data:/var/lib/localstack
+    container_name: localstack
+    restart: unless-stopped
+    networks:
+      - default
+
+volumes:
+  jupyter-data:
+  localstack-data:
+
+networks:
+  default:
+    driver: bridge
