@@ -2,7 +2,7 @@
 
 ## Instructions
 
-Navigate to the root directory and run 'docker-compose up' to start the Docker environment along with the LocalStack instance. After the container starts, navigate to http://localhost:8888/lab and double-click the file on the left named helloHeartPipeline. From there, simply click the first cell then click the "Restart kernel and run all" button.
+Navigate to the root directory and run 'docker-compose up' to start the Jupyter and LocalStack containers. After the container starts, navigate to http://localhost:8888/lab and double-click the file on the left named helloHeartPipeline. From there, simply click the first cell then click the "Restart kernel and run all" button.
 
 ## ETL pipeline approach
 
