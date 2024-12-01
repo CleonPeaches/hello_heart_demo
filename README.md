@@ -21,7 +21,7 @@ I transformed two columns on the patient dataframe-- I normalized phone numbers 
 
 ## De-identification
 
-I chose the name, address, and phone number columns on the appointments table to hash, as those are the only fields that could uniquely identify a patient if the data were compromised.
+I chose the name, address, and phone number columns on the appointments table to hash, as those are the only fields that could uniquely identify a patient if the data were compromised. I also appended a 15-digit randomly generated salt to the input value before hashing to increase resilience against rainbow table attacks.
 
 ## Docker and LocalStack
 
@@ -39,4 +39,4 @@ I would also stop loading everything in LocalStack into a single datarame; if th
 
 I would introduce the use of a queue or a replication tool like DataSync or Rclone to keep track of which files have already been uploaded to LocalStack and which ones haven't. I would also implement a failure queue to retain the object keys of files that don't get ingested so we can go back and retry them later.
 
-I would also implement some input validation at the presentation layer which would help ensure all data is in a normalized format from the start instead of relying entirely on regular expressions to clean it later.
+Some input validation at the presentation layer would serve to ensure all data is in a normalized format from the start instead of relying entirely on complex regular expressions to clean it later.
