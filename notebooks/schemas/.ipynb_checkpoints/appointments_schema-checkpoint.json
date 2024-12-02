@@ -1,0 +1,1 @@
+{"fields":[{"metadata":{},"name":"patient_id","nullable":true,"type":"integer"},{"metadata":{},"name":"appointment_date","nullable":true,"type":"date"},{"metadata":{},"name":"doctor","nullable":true,"type":"string"}],"type":"struct"}
